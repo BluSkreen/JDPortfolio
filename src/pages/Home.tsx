@@ -2,7 +2,7 @@ import HeroText from '../components/HeroText';
 
 const Home = () => {
     return (
-            <section>
+            <section className='w-full grow'>
                 <HeroText />
             </section>
            );
