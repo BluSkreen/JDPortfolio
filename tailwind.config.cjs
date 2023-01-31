@@ -20,7 +20,11 @@ module.exports = {
             900: "#222222",
         },
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        sourceCodePro: ["Source Code Pro", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 }

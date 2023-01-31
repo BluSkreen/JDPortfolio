@@ -8,18 +8,26 @@ interface NavItem {
 
 const navItems: NavItem[] = [
     {
-        text:"home",
+        text:"// home",
         location:"/"
     },
     {
-        text:"about",
+        text:"// about",
         location:"/about"
+    },
+    {
+        text:"// projects",
+        location:"/projects"
+    },
+    {
+        text:"// resume",
+        location:"/resume"
     },
 ];
 
 const NavTab = ( {text, location}: NavItem) => {
     return (
-            <Link to={location} className='px-3 text-grey-100 hover:text-grey-400'>{text}</Link>
+            <Link to={location} className='px-3 text-lg font-normal text-grey-100 hover:text-grey-400'>{text}</Link>
     )
 }
 

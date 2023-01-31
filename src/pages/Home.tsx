@@ -1,7 +1,9 @@
+import HeroText from '../components/HeroText';
+
 const Home = () => {
     return (
             <section>
-                <p>hi</p>
+                <HeroText />
             </section>
            );
 }
