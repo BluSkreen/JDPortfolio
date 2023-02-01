@@ -5,7 +5,7 @@ const HeroText = () => {
     return (
         <div className="w-min h-min flex flex-col">
             <div className="w-full h-auto">
-                <h1 className="w-min leading-[9rem] tracking-tighter text-[175px] text-grey-100 ">
+                <h1 className="w-min leading-[7rem] tracking-tighter text-[125px] text-grey-100 ">
                     {"\u003C"}Jason
                 </h1>
             </div>
@@ -25,7 +25,7 @@ const HeroText = () => {
                     </Link>
                 </div>
                 <div className="w-min h-auto">
-                    <h1 className="w-min leading-[9rem] tracking-tighter text-[175px]  text-grey-100">
+                    <h1 className="w-min leading-[7rem] tracking-tighter text-[125px]  text-grey-100">
                         Duran/{"\u003E"}
                     </h1>
                 </div>
