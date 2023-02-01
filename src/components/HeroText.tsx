@@ -13,13 +13,13 @@ const HeroText = () => {
                 <div className="w-[20rem] h-auto pt-2 flex flex-wrap justify-center content-center">
                     <Link
                         to={"https://github.com/BluSkreen"}
-                        className="text-violet-500 pl-10 py-1"
+                        className="text-violet-500 hover:text-violet-400 pl-10 py-1"
                     >
                         github.com/BluSkreen
                     </Link>
                     <Link
                         to={"https://www.linkedin.com/in/jasonduran303/"}
-                        className="text-violet-500 pl-10 py-1"
+                        className="text-violet-500 hover:text-violet-400 pl-10 py-1"
                     >
                         LinkedIn
                     </Link>

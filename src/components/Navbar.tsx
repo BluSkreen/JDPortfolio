@@ -27,7 +27,7 @@ const navItems: NavItem[] = [
 
 const NavTab = ( {text, location}: NavItem) => {
     return (
-            <Link to={location} className='px-3 text-lg font-normal text-grey-100 hover:text-grey-400'>{text}</Link>
+            <Link to={location} className='px-3 text-lg font-normal text-grey-100 hover:text-violet-300'>{text}</Link>
     )
 }
 
