@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   mode: 'jit',
   content: [
@@ -7,6 +9,7 @@ module.exports = {
   ],
   theme: {
     colors: {
+        violet: colors.violet,
         "grey": {
             000: "#F7F7F7",
             100: "#E1E1E1",
