@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const HeroText = () => {
+const HeroText = (props:{size:string}) => {
     return (
         <div className="w-min h-min flex flex-col">
             <div className="w-full h-auto">

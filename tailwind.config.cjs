@@ -10,6 +10,8 @@ module.exports = {
   theme: {
     colors: {
         violet: colors.violet,
+        gray: colors.gray,
+        white: colors.white,
         "grey": {
             000: "#F7F7F7",
             100: "#E1E1E1",
