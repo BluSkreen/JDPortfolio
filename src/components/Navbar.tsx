@@ -32,7 +32,8 @@ const AppNavbar = () => {
     return (
         <nav className='h-44 w-full flex-none fixed top-0 z-20'>
             <div className='h-full justify-center flex items-center'>
-            {navItems.map((item) => <NavTab key={item.text} text={item.text} location={item.location} />)}</div>
+                {navItems.map((item) => <NavTab key={item.text} text={item.text} location={item.location} />)}
+            </div>
         </nav>
     )
 }
