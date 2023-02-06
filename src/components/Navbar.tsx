@@ -1,38 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import HeroText from "../components/HeroText";
+
+import { useAppSelector, useAppDispatch } from '../redux/hooks';
+import { setLocation } from "../redux/location";
 
 interface NavItem {
-    text: string,
-    location: string
+    navText: string,
+    navLocation: string
 }
 
 const navItems: NavItem[] = [
     {
-        text:"// home",
-        location:"/"
+        navText:"// home",
+        navLocation:"/"
     },
     {
-        text:"// projects",
-        location:"/projects"
+        navText:"// projects",
+        navLocation:"/projects"
     },
     {
-        text:"// resume",
-        location:"/resume"
+        navText:"// resume",
+        navLocation:"/resume"
     },
 ];
 
-const NavTab = ( {text, location}: NavItem) => {
+const NavTab = ( {navText, navLocation}: NavItem) => {
+    const dispatch = useAppDispatch();
     return (
-            <Link to={location} className='px-4 text-lg font-normal text-grey-100 hover:text-violet-300'>{text}</Link>
+            <Link to={navLocation} onClick={() => dispatch(setLocation(navLocation))} 
+            className='px-4 text-lg font-normal text-grey-100 hover:text-violet-300'>{navText}</Link>
     )
 }
 
 const AppNavbar = () => {
+    // 'state' is correctly typed as 'RootState'
+    const location = useAppSelector((state) => state.locationState.location);
 
     return (
         <nav className='h-44 w-full flex-none fixed top-0 z-20'>
             <div className='h-full justify-center flex items-center'>
-                {navItems.map((item) => <NavTab key={item.text} text={item.text} location={item.location} />)}
+                <div className='px-5'>
+                    { location === "/" ? (<></>) : (<HeroText size="small"/>)}
+                </div>
+                {navItems.map((item) => <NavTab key={item.navText} navText={item.navText} navLocation={item.navLocation} />)}
             </div>
         </nav>
     )

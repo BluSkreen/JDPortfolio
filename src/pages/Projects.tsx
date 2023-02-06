@@ -1,11 +1,11 @@
-import HeroText from "../components/HeroText";
+import React from "react";
 
 const callouts = [
   {
-    name: 'Desk and Office',
-    description: 'Work from home accessories',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg',
-    imageAlt: 'Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug.',
+    name: 'The Malie Hotel',
+    description: 'Create an account, book a room, and pay with stripe.',
+    imageSrc: '/malie.PNG',
+    imageAlt: 'Resort Hotel, Full Stack Project.',
     href: '#',
   },
   {
@@ -25,6 +25,7 @@ const callouts = [
 ]
 
 const Projects = () => {
+
     return (
         <section className="mt-44 w-full h-full flex justify-center">
     <div className="flex content-center">
