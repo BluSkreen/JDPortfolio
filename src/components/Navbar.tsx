@@ -38,11 +38,12 @@ const AppNavbar = () => {
     const location = useAppSelector((state) => state.locationState.location);
 
     return (
-        <nav className='h-44 w-full flex-none fixed top-0 z-20'>
-            <div className='h-full justify-center flex items-center'>
+        <nav className='h-44 w-full flex-none fixed top-0 z-20 flex justify-center items-center'>
+            <div className='h-min p-5 flex justify-center items-center border border-grey-100 rounded-md bg-grey-900'>
+                {location === "/" ? (<></>) : (
                 <div className='px-5'>
-                    { location === "/" ? (<></>) : (<HeroText size="small"/>)}
-                </div>
+                    <HeroText size="small"/>
+                </div>)}
                 {navItems.map((item) => <NavTab key={item.navText} navText={item.navText} navLocation={item.navLocation} />)}
             </div>
         </nav>

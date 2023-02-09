@@ -24,9 +24,8 @@ const Links = () => {
 
 const Icons = () => {
     return (<>
-            <img className="w-7" src="/icons8-github-50-2.svg" alt="Jasons github svg"></img>
-            <img className="w-7" src="/icons8-linkedin-50-2.svg" alt="Jasons github svg"></img>
-            <img className="w-7" src="/icons8-twitter-squared-50.svg" alt="Jasons github svg"></img>
+            <Link to="https://github.com/BluSkreen"><img className="w-7" src="/icons8-github-50-2.svg" alt="Jasons github svg"></img></Link>
+            <Link to="https://www.linkedin.com/in/jasonduran303/"><img className="w-7" src="/icons8-linkedin-50-2.svg" alt="Jasons github svg"></img></Link>
     </>);
 }
 

@@ -9,6 +9,7 @@ import Resume from "./pages/Resume";
 import VimNav from "./components/VimNav";
 
 function App() {
+    const testing = false;
     return (
         <Router>
             <div className="h-full w-full flex flex-col">
@@ -18,7 +19,7 @@ function App() {
                     <Route path="/projects" element={<Projects />} />
                     <Route path="/resume" element={<Resume />} />
                 </Routes>
-                <VimNav />
+                {testing ? <VimNav /> : <></>}
             </div>
         </Router>
     );
