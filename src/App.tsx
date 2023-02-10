@@ -17,7 +17,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/projects" element={<Projects />} />
-                    <Route path="/resume" element={<Resume />} />
+                    <Route path="/info" element={<Resume />} />
                 </Routes>
                 {testing ? <VimNav /> : <></>}
             </div>

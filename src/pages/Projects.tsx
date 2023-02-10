@@ -6,46 +6,51 @@ const callouts = [
     description: 'Create an account, book a room, and pay with stripe.',
     imageSrc: '/malie.PNG',
     imageAlt: 'Resort Hotel, Full Stack Project.',
-    href: '#',
+    href: '',
   },
   {
     name: 'Dev Dive',
     description: 'A board for Tech Jobs.',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg',
+    imageSrc: '/DevDive.png',
     imageAlt: '',
     href: '#',
   },
   {
     name: 'PrepUrself',
     description: 'A calendar for meal prep.',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg',
+    imageSrc: '/prepUrself.png',
     imageAlt: '',
     href: '#',
   },
   {
     name: 'Weather App',
     description: 'Get the weather forcast for any city and save it.',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg',
+    imageSrc: 'WeatherApp.png',
     imageAlt: '',
     href: '#',
   },
   {
     name: 'JATE',
     description: 'Just Another Text Editor',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg',
+    imageSrc: 'JATE.png',
     imageAlt: '',
-    href: '#',
+    href: 'https://github.com/BluSkreen/Just-Another-Text-Editor',
   },
   {
     name: 'Book Search',
     description: 'Login and save any book you\'re searching for.',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg',
+    imageSrc: 'BookSearch.png',
     imageAlt: '',
     href: '#',
   },
 ]
 
+import { useAppDispatch } from '../redux/hooks';
+import { setLocation } from "../redux/location";
+
 const Projects = () => {
+    const dispatch = useAppDispatch();
+    dispatch(setLocation("projects"));
 
     return (
         <section className="mt-44 mb-10 w-full h-full flex justify-center">
@@ -57,7 +62,7 @@ const Projects = () => {
           <div className="mt-6 space-y-12 md:grid md:grid-cols-2 md:gap-x-6 md:space-y-0 2xl:grid 2xl:grid-cols-3 2xl:gap-x-6 2xl:space-y-0">
             {callouts.map((callout) => (
               <div key={callout.name} className="group relative">
-                <div className="relative h-60 w-full overflow-hidden rounded-lg bg-white group-hover:opacity-75 sm:aspect-w-4 sm:aspect-h-1 sm:h-60">
+                <div className="relative h-60 w-full overflow-hidden rounded-sm bg-white group-hover:opacity-75 sm:aspect-w-4 sm:aspect-h-1 sm:h-60">
                   <img
                     src={callout.imageSrc}
                     alt={callout.imageAlt}

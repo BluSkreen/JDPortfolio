@@ -7,8 +7,11 @@ const Home = () => {
                 <div className="w-full h-full">
                     <HeroText size="hero"/>
                 </div>
-                <div className="w-full h-full text-grey-0 text-[35px]">
-                    <h2 className="text-end">Full Stack Developer</h2>
+                <div className="relative w-full h-full text-grey-0 flex justify-end">
+                    <div>
+                        <h2 className="text-end text-[35px]">Full Stack Developer</h2>
+                        <p className="absolute top-10 right-20 z-20 text-[20px]"></p>
+                    </div>
                 </div>
             </div>
         </section>

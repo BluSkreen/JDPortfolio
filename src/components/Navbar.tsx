@@ -20,8 +20,8 @@ const navItems: NavItem[] = [
         navLocation:"/projects"
     },
     {
-        navText:"// resume",
-        navLocation:"/resume"
+        navText:"// info",
+        navLocation:"/info"
     },
 ];
 
