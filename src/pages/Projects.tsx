@@ -6,42 +6,42 @@ const callouts = [
     description: 'Create an account, book a room, and pay with stripe.',
     imageSrc: '/malie.PNG',
     imageAlt: 'Resort Hotel, Full Stack Project.',
-    href: '',
+    href: 'https://the-malie.herokuapp.com/',
   },
   {
     name: 'Dev Dive',
     description: 'A board for Tech Jobs.',
     imageSrc: '/DevDive.png',
-    imageAlt: '',
-    href: '#',
+    imageAlt: 'Create and account or search for job postings.',
+    href: 'https://dev-dive.herokuapp.com/',
   },
   {
     name: 'PrepUrself',
     description: 'A calendar for meal prep.',
     imageSrc: '/prepUrself.png',
-    imageAlt: '',
-    href: '#',
+    imageAlt: 'A planner that provides recipe search functionality.',
+    href: 'https://github.com/bencha27/prepUrself',
   },
   {
     name: 'Weather App',
     description: 'Get the weather forcast for any city and save it.',
     imageSrc: 'WeatherApp.png',
-    imageAlt: '',
-    href: '#',
+    imageAlt: 'A weather dashboard with search and past cities on the side.',
+    href: 'https://bluskreen.github.io/weather-dashboard/',
   },
   {
     name: 'JATE',
     description: 'Just Another Text Editor',
     imageSrc: 'JATE.png',
-    imageAlt: '',
-    href: 'https://github.com/BluSkreen/Just-Another-Text-Editor',
+    imageAlt: 'A basic text editor using babel.',
+    href: 'https://jate-blue.herokuapp.com/',
   },
   {
     name: 'Book Search',
     description: 'Login and save any book you\'re searching for.',
     imageSrc: 'BookSearch.png',
-    imageAlt: '',
-    href: '#',
+    imageAlt: 'A full stack site using the google api to search books. Login/create account in the top right.',
+    href: 'https://github.com/BluSkreen/MERN-Book-Search',
   },
 ]
 
@@ -70,7 +70,7 @@ const Projects = () => {
                   />
                 </div>
                 <h3 className="mt-2 text-sm text-gray-400">
-                  <a href={callout.href}>
+                  <a href={callout.href} target="_blank" rel="noopener noreferrer">
                     <span className="absolute inset-0" />
                     {callout.name}
                   </a>
