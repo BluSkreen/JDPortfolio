@@ -27,7 +27,7 @@ const callouts = [
     description: 'Get the weather forcast for any city and save it.',
     imageSrc: 'WeatherApp.png',
     imageAlt: 'A weather dashboard with search and past cities on the side.',
-    href: 'https://bluskreen.github.io/weather-dashboard/',
+    href: 'https://blu-forecast.netlify.app/',
   },
   {
     name: 'JATE',
