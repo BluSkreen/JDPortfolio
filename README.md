@@ -2,7 +2,7 @@
 # JDPortfolio
 My personal portfolio using Vite, React, TS, Tailwind
 
-## [Live Demo](https://jasonduran.me/ "My Portfolio")
+## [View Site](https://jason-duran.netlify.app/ "My Portfolio")
 
 ## License
 
