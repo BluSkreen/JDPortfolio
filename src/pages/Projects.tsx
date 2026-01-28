@@ -6,14 +6,14 @@ const callouts = [
     description: 'Create an account, book a room, and pay with stripe.',
     imageSrc: '/malie.PNG',
     imageAlt: 'Resort Hotel, Full Stack Project.',
-    href: 'https://the-malie.herokuapp.com/',
+    href: 'https://github.com/BluSkreen/malie-hotel',
   },
   {
     name: 'Dev Dive',
     description: 'A board for Tech Jobs.',
     imageSrc: '/DevDive.png',
     imageAlt: 'Create and account or search for job postings.',
-    href: 'https://dev-dive.herokuapp.com/',
+    href: 'https://github.com/BluSkreen/DevDive',
   },
   {
     name: 'PrepUrself',
@@ -34,7 +34,7 @@ const callouts = [
     description: 'Just Another Text Editor',
     imageSrc: 'JATE.png',
     imageAlt: 'A basic text editor using babel.',
-    href: 'https://jate-blue.herokuapp.com/',
+    href: 'https://github.com/BluSkreen/Just-Another-Text-Editor',
   },
   {
     name: 'Book Search',
