@@ -5,6 +5,7 @@ import Projects from "./components/Projects";
 import Info from "./components/Info";
 import Contact from "./components/Contact";
 import Scene from "./scene/Scene";
+import PhysicsToggle from "./components/PhysicsToggle";
 
 const App = () => (
   <>
@@ -17,6 +18,7 @@ const App = () => (
       <Info />
       <Contact />
     </main>
+    <PhysicsToggle />
   </>
 );
 

@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { useUI } from "../store";
-import type { Engine } from "./engine";
 
 function supportsWebGL2() {
   try {
@@ -19,19 +18,18 @@ const Scene = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!enabled || !canvas) return;
-    let engine: Engine | undefined;
+    let unmount: (() => void) | undefined;
     let cancelled = false;
     // three.js lives in its own chunk so the page content paints first.
-    import("./engine").then(({ Engine }) => {
+    import("./controller").then(({ mountScene }) => {
       if (cancelled) return;
-      engine = new Engine(canvas);
-      engine.start();
+      unmount = mountScene(canvas);
       setSceneActive(true);
     });
     return () => {
       cancelled = true;
       setSceneActive(false);
-      engine?.dispose();
+      unmount?.();
     };
   }, [enabled, setSceneActive]);
 

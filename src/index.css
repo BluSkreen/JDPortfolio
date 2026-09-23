@@ -29,3 +29,14 @@
     @apply min-h-dvh bg-grey-900 font-mono text-grey-100 antialiased;
   }
 }
+
+/* Set by the physics layer while hovering or dragging a body. */
+html[data-grabbable],
+html[data-grabbable] * {
+  cursor: grab;
+}
+html[data-grabbing],
+html[data-grabbing] * {
+  cursor: grabbing !important;
+  user-select: none;
+}
