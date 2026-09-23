@@ -9,6 +9,8 @@ const ProjectCard = ({ project }: { project: Project }) => {
         {project.image ? (
           <img
             src={project.image}
+            srcSet={`${project.image.replace(".webp", "-640.webp")} 640w, ${project.image} 1200w`}
+            sizes="(min-width: 1280px) 380px, (min-width: 768px) 50vw, 100vw"
             alt={project.imageAlt}
             loading="lazy"
             decoding="async"

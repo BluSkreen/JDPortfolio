@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Self-hosted (SIL OFL), latin subset, variable weight. */
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/source-code-pro-latin.woff2") format("woff2");
+}
+
 @theme {
   --font-mono: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, monospace;
 
@@ -39,4 +48,30 @@ html[data-grabbing],
 html[data-grabbing] * {
   cursor: grabbing !important;
   user-select: none;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-violet-400);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* Sections fade up as they scroll into view. Progressive enhancement: no JS, and skipped
+   entirely without scroll-timeline support or with reduced motion. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
 }
