@@ -1,1 +1,4 @@
-/*    /index.html   200
+# Old routes from the multi-page version of the site. They serve the single page, and
+# src/main.tsx rewrites them to their section anchors. Everything else unknown gets 404.html.
+/projects   /index.html   200
+/info       /index.html   200

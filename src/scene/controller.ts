@@ -13,16 +13,23 @@ export function mountScene(canvas: HTMLCanvasElement) {
   let disposed = false;
   let loaded: Promise<{ physics: Physics; text: TextPhysics } | null> | null = null;
 
+  // Resolves to null if the chunk or the WASM fails to load (e.g. offline); the scene keeps
+  // drifting without physics and the toggle turns itself back off.
   const loadPhysics = () =>
-    (loaded ??= Promise.all([import("./physics"), import("./textPhysics")]).then(async ([{ Physics }, { TextPhysics }]) => {
-      if (disposed) return null;
-      const physics = await Physics.create(engine);
-      if (disposed) {
-        physics.dispose();
+    (loaded ??= Promise.all([import("./physics"), import("./textPhysics")])
+      .then(async ([{ Physics }, { TextPhysics }]) => {
+        if (disposed) return null;
+        const physics = await Physics.create(engine);
+        if (disposed) {
+          physics.dispose();
+          return null;
+        }
+        return { physics, text: new TextPhysics(physics) };
+      })
+      .catch((err: unknown) => {
+        console.warn("Physics failed to load; continuing without it.", err);
         return null;
-      }
-      return { physics, text: new TextPhysics(physics) };
-    }));
+      }));
 
   const onFirstInput = () => {
     for (const type of FIRST_INPUT) window.removeEventListener(type, onFirstInput);
@@ -32,7 +39,10 @@ export function mountScene(canvas: HTMLCanvasElement) {
 
   const syncText = async () => {
     const p = await loadPhysics();
-    if (!p) return;
+    if (!p) {
+      if (!disposed) useUI.setState({ textPhysics: false });
+      return;
+    }
     // Read the latest value: the toggle may have flipped again while Rapier was loading.
     if (useUI.getState().textPhysics) p.text.enable();
     else p.text.disable();

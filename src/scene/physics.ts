@@ -12,9 +12,16 @@ const STEP = 1 / 60;
 
 export interface Draggable {
   body: RAPIER.RigidBody;
-  /** Only letter-style bodies are grabbable by touch; hidden objects would hijack scrolling. */
-  touchGrab: boolean;
+  /**
+   * Letters are visible, so they can be grabbed anywhere (and by touch). Hidden objects are only
+   * grabbable with a mouse over empty background, so they never hijack scrolling or text selection.
+   */
+  kind: "letter" | "object";
 }
+
+// Pointer targets where a press means "read/select/click this", not "grab what's behind it".
+const CONTENT = "p, h1, h2, h3, h4, li, img, article, footer";
+const INTERACTIVE = "a, button, input, textarea, select, label, [role=button]";
 
 export class Physics {
   readonly world: RAPIER.World;
@@ -72,13 +79,17 @@ export class Physics {
     return { x: x * PX + width / 2, y: height / 2 - y * PX };
   }
 
+  /** Inner edges of the walls, in physics units. */
+  bounds() {
+    const { width, height } = this.engine.world;
+    return { left: -width / 2 / PX, right: width / 2 / PX, bottom: -height / 2 / PX, top: (height / 2 - NAV_HEIGHT) / PX };
+  }
+
   // --- bodies ------------------------------------------------------------
 
   private buildWalls() {
-    const { width, height } = this.engine.world;
-    const hw = width / 2 / PX;
-    const hh = height / 2 / PX;
-    const top = hh - NAV_HEIGHT / PX;
+    const { right: hw, top, bottom } = this.bounds();
+    const hh = -bottom;
     const t = 2; // wall half-thickness, thick enough that nothing tunnels through
     const body = this.world.createRigidBody(RAPIER.RigidBodyDesc.fixed());
     const wall = (x: number, y: number, hx: number, hy: number) =>
@@ -118,12 +129,12 @@ export class Physics {
     this.world.createCollider(collider.setRestitution(0.7).setDensity(0.5), body);
 
     this.floating.push({ obj, body });
-    this.bodies.set(body.handle, { body, touchGrab: false });
+    this.bodies.set(body.handle, { body, kind: "object" });
   }
 
-  /** Registers an externally created body (e.g. a letter) as draggable. */
-  addDraggable(body: RAPIER.RigidBody, touchGrab: boolean) {
-    this.bodies.set(body.handle, { body, touchGrab });
+  /** Registers an externally created letter body as draggable. */
+  addLetter(body: RAPIER.RigidBody) {
+    this.bodies.set(body.handle, { body, kind: "letter" });
   }
 
   removeBody(body: RAPIER.RigidBody) {
@@ -134,22 +145,23 @@ export class Physics {
 
   // --- input -------------------------------------------------------------
 
-  private bodyAt(clientX: number, clientY: number, touch: boolean) {
+  /** The grabbable body under a pointer, honoring the per-kind rules on `Draggable`. */
+  private bodyAt(clientX: number, clientY: number, target: EventTarget | null, touch: boolean) {
+    const el = target instanceof Element ? target : null;
+    if (el?.closest(INTERACTIVE)) return null;
+    const objectsAllowed = !touch && !el?.closest(CONTENT);
     const p = this.toWorld(clientX, clientY);
     let hit: RAPIER.RigidBody | null = null;
     this.world.intersectionsWithPoint({ x: p.x, y: p.y, z: 0 }, (collider) => {
-      const entry = collider.parent() && this.bodies.get(collider.parent()!.handle);
-      if (entry && (!touch || entry.touchGrab)) {
+      const parent = collider.parent();
+      const entry = parent && this.bodies.get(parent.handle);
+      if (entry && (entry.kind === "letter" || objectsAllowed)) {
         hit = entry.body;
         return false;
       }
       return true;
     });
     return hit as RAPIER.RigidBody | null;
-  }
-
-  private static isInteractive(target: EventTarget | null) {
-    return target instanceof Element && !!target.closest("a, button, input, textarea, select, label, [role=button]");
   }
 
   private grab(body: RAPIER.RigidBody, clientX: number, clientY: number) {
@@ -161,8 +173,8 @@ export class Physics {
   }
 
   private onPointerDown = (e: PointerEvent) => {
-    if (e.button !== 0 || Physics.isInteractive(e.target)) return;
-    const body = this.bodyAt(e.clientX, e.clientY, e.pointerType !== "mouse");
+    if (e.button !== 0) return;
+    const body = this.bodyAt(e.clientX, e.clientY, e.target, e.pointerType !== "mouse");
     if (!body) return;
     e.preventDefault(); // no text selection while dragging
     this.grab(body, e.clientX, e.clientY);
@@ -171,8 +183,8 @@ export class Physics {
   // Touch scrolling can only be cancelled from touchstart, so grabbable hits are claimed here.
   private onTouchStart = (e: TouchEvent) => {
     const t = e.touches[0];
-    if (e.touches.length !== 1 || !t || Physics.isInteractive(e.target)) return;
-    if (this.bodyAt(t.clientX, t.clientY, true)) e.preventDefault();
+    if (e.touches.length !== 1 || !t) return;
+    if (this.bodyAt(t.clientX, t.clientY, e.target, true)) e.preventDefault();
   };
 
   private onPointerMove = (e: PointerEvent) => {
@@ -180,7 +192,7 @@ export class Physics {
       const p = this.toWorld(e.clientX, e.clientY);
       this.grabTarget.set(p.x, p.y);
     } else if (this.finePointer) {
-      const over = !Physics.isInteractive(e.target) && !!this.bodyAt(e.clientX, e.clientY, false);
+      const over = !!this.bodyAt(e.clientX, e.clientY, e.target, false);
       if (over) document.documentElement.dataset.grabbable = "";
       else delete document.documentElement.dataset.grabbable;
     }
@@ -195,13 +207,11 @@ export class Physics {
     this.world.removeRigidBody(this.walls);
     this.walls = this.buildWalls();
     // Pull anything the new walls left outside back into view.
-    const { width, height } = this.engine.world;
-    const hw = width / 2 / PX;
-    const hh = height / 2 / PX;
+    const b = this.bounds();
     for (const { body } of this.bodies.values()) {
       const t = body.translation();
-      const x = THREE.MathUtils.clamp(t.x, -hw + 0.3, hw - 0.3);
-      const y = THREE.MathUtils.clamp(t.y, -hh + 0.3, hh - NAV_HEIGHT / PX - 0.3);
+      const x = THREE.MathUtils.clamp(t.x, b.left + 0.3, b.right - 0.3);
+      const y = THREE.MathUtils.clamp(t.y, b.bottom + 0.3, b.top - 0.3);
       if (x !== t.x || y !== t.y) body.setTranslation({ x, y, z: 0 }, true);
     }
   };

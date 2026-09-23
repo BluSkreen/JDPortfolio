@@ -20,6 +20,9 @@ export class Reveal {
   private readonly compositeMaterial: THREE.ShaderMaterial;
   private readonly scene = new THREE.Scene();
   private targets: [THREE.WebGLRenderTarget, THREE.WebGLRenderTarget];
+  /** Fresh targets are zero-filled, which decodes as a strong velocity; clear them to neutral first. */
+  private needsClear = true;
+  private static readonly NEUTRAL = new THREE.Color(0, 0.5, 0.5);
   readonly hiddenTarget: THREE.WebGLRenderTarget;
 
   constructor(width: number, height: number, pixelRatio: number) {
@@ -65,6 +68,7 @@ export class Reveal {
     const mw = Math.max(1, Math.round(width * MASK_SCALE));
     const mh = Math.max(1, Math.round(height * MASK_SCALE));
     for (const t of this.targets) t.setSize(mw, mh);
+    this.needsClear = true;
     this.hiddenTarget.setSize(Math.round(width * pixelRatio), Math.round(height * pixelRatio));
     this.maskMaterial.uniforms.uAspect.value = width / height;
     // Brush radius is in UV-height units; keep it roughly 90px wide on any screen.
@@ -74,6 +78,15 @@ export class Reveal {
 
   /** Advances the trail mask one frame. */
   updateMask(renderer: THREE.WebGLRenderer, brush: Brush, dt: number) {
+    if (this.needsClear) {
+      renderer.setClearColor(Reveal.NEUTRAL, 1);
+      for (const t of this.targets) {
+        renderer.setRenderTarget(t);
+        renderer.clear();
+      }
+      this.needsClear = false;
+    }
+
     const u = this.maskMaterial.uniforms;
     u.uPrev.value = this.targets[0].texture;
     u.uPointer.value.copy(brush.pointer);

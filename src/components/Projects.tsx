@@ -43,12 +43,12 @@ const ProjectCard = ({ project }: { project: Project }) => {
         {(project.repo || project.live) && (
           <div className="flex gap-4 text-sm">
             {project.live && (
-              <a href={project.live} target="_blank" rel="noopener noreferrer" className="py-2 text-violet-400 hover:text-violet-300">
+              <a href={project.live} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-violet-400 hover:text-violet-300">
                 live ↗
               </a>
             )}
             {project.repo && (
-              <a href={project.repo} target="_blank" rel="noopener noreferrer" className="py-2 text-violet-400 hover:text-violet-300">
+              <a href={project.repo} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-violet-400 hover:text-violet-300">
                 code ↗
               </a>
             )}

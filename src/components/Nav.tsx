@@ -10,13 +10,14 @@ const navItems = [
 ];
 
 function useActiveSection() {
-  const [active, setActive] = useState("home");
+  const [inBand, setInBand] = useState("home");
+  const [atBottom, setAtBottom] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) setActive(entry.target.id);
+          if (entry.isIntersecting) setInBand(entry.target.id);
         }
       },
       // A section counts as active when it crosses the middle band of the viewport.
@@ -26,10 +27,23 @@ function useActiveSection() {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     }
-    return () => observer.disconnect();
+
+    // The last section is too short to reach the middle band, so the page bottom selects it.
+    const onScroll = () => {
+      const doc = document.documentElement;
+      setAtBottom(window.innerHeight + window.scrollY >= doc.scrollHeight - 4);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
-  return active;
+  return atBottom ? navItems[navItems.length - 1].id : inBand;
 }
 
 const Nav = () => {
@@ -53,7 +67,7 @@ const Nav = () => {
   return (
     <header className="fixed inset-x-0 top-0 z-30 border-b border-grey-800/60 bg-grey-900/70 backdrop-blur-md">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6" aria-label="Main">
-        <a href="#home" className="text-lg font-bold text-grey-0" onClick={() => setOpen(false)}>
+        <a href="#home" className="flex min-h-11 items-center text-lg font-bold text-grey-0" onClick={() => setOpen(false)}>
           {"<"}
           {profile.firstName[0]}
           {profile.lastName[0]}

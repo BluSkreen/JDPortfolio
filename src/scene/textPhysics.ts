@@ -42,10 +42,11 @@ export class TextPhysics {
     }
     const rects = els.map((el) => this.measure(el));
     const { world } = this.physics;
+    const spawn = this.spawnPositions(rects);
 
     this.letters = els.map((el, i) => {
       const r = rects[i];
-      const p = this.physics.toWorld(r.x - window.scrollX, r.y - window.scrollY);
+      const p = spawn[i];
       const body = world.createRigidBody(
         RAPIER.RigidBodyDesc.dynamic()
           .setTranslation(p.x, p.y, 0)
@@ -62,12 +63,33 @@ export class TextPhysics {
         RAPIER.ColliderDesc.cuboid((r.w * 0.45) / PX, (r.h * 0.5) / PX, 0.3).setRestitution(0.25).setFriction(0.7).setDensity(1),
         body,
       );
-      this.physics.addDraggable(body, true);
+      this.physics.addLetter(body);
       el.style.cursor = "grab";
+      el.style.willChange = "transform";
       return { el, body, restX: r.x, restY: r.y };
     });
 
     this.physics.afterStep = this.sync;
+  }
+
+  /**
+   * Where each letter's body starts, in physics units. Normally that's right where the glyph is,
+   * but the toggle works from anywhere on the page: if the hero is scrolled out of view, the word
+   * is moved (as a block, keeping its shape) to just under the ceiling so it drops into view.
+   */
+  private spawnPositions(rects: { x: number; y: number; w: number; h: number }[]) {
+    const b = this.physics.bounds();
+    const pts = rects.map((r) => ({ ...this.physics.toWorld(r.x - window.scrollX, r.y - window.scrollY), hw: r.w / 2 / PX, hh: r.h / 2 / PX }));
+    const top = Math.max(...pts.map((p) => p.y + p.hh));
+    const bottom = Math.min(...pts.map((p) => p.y - p.hh));
+    const margin = 0.05;
+    let dy = 0;
+    if (top > b.top - margin) dy = b.top - margin - top;
+    else if (bottom < b.bottom + margin) dy = b.bottom + margin - bottom;
+    return pts.map((p) => ({
+      x: Math.min(Math.max(p.x, b.left + p.hw + margin), b.right - p.hw - margin),
+      y: p.y + dy,
+    }));
   }
 
   private sync = () => {
@@ -100,7 +122,11 @@ export class TextPhysics {
       el.style.cursor = "";
       el.style.transition = `transform ${SETTLE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`;
       el.style.transform = "";
-      setTimeout(() => (el.style.transition = ""), SETTLE_MS);
+      setTimeout(() => {
+        if (this.enabled) return; // toggled back on mid-settle
+        el.style.transition = "";
+        el.style.willChange = "";
+      }, SETTLE_MS);
     }
     this.letters = [];
   }

@@ -19,7 +19,12 @@ const Contact = () => (
       <ul className="flex gap-4">
         {profile.links.map((link) => (
           <li key={link.label}>
-            <a href={link.href} target="_blank" rel="noopener noreferrer" className="hover:text-violet-300">
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center hover:text-violet-300"
+            >
               {link.label}
             </a>
           </li>

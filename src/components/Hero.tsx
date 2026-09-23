@@ -4,7 +4,7 @@ import { profile } from "../data/profile";
 const Letters = ({ text }: { text: string }) => (
   <>
     {[...text].map((ch, i) => (
-      <span key={i} data-letter className="inline-block will-change-transform">
+      <span key={i} data-letter className="inline-block">
         {ch}
       </span>
     ))}
