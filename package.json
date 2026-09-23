@@ -1,35 +1,37 @@
 {
-    "name": "dotme",
-    "private": "true",
-    "version": "0.0.0",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build && echo '/* /index.html 200' | cat >dist/_redirects ",
-        "preview": "vite preview"
-    },
-    "dependencies": {
-        "@headlessui/react": "^1.7.8",
-        "@heroicons/react": "^2.0.14",
-        "@radix-ui/react-separator": "^1.0.1",
-        "@reduxjs/toolkit": "^1.9.2",
-        "@types/react-redux": "^7.1.25",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-redux": "^8.0.5",
-        "react-router-dom": "^6.8.0",
-        "redux": "^4.2.1"
-    },
-    "devDependencies": {
-        "@tailwindcss/aspect-ratio": "^0.4.2",
-        "@types/react": "^18.0.26",
-        "@types/react-dom": "^18.0.9",
-        "@vitejs/plugin-react-swc": "^3.0.0",
-        "autoprefixer": "^10.4.13",
-        "postcss": "^8.4.21",
-        "prettier": "2.8.7",
-        "tailwindcss": "^3.2.4",
-        "typescript": "^4.9.3",
-        "vite": "^4.0.0"
-    }
+  "name": "jdportfolio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.20.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "three": "^0.186.0",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.6.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-react-swc": "^4.3.3",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.12.0",
+    "prettier": "^3.9.9",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.70.1",
+    "vite": "^8.3.0"
+  }
 }

@@ -1,19 +1,14 @@
+import Section from "./Section";
+import { profile } from "../data/profile";
 
-const Home = () => {
-    return (
-        <section className="w-full h-full flex justify-center">
-            <div className="w-full h-full max-w-[70rem] max-h-[20rem] flex flex-col-reverse">
-                <div className="w-full h-full text-grey-0 text-[10px]">
-                    <p className="text-end">Hi! My name is Jason Duran and I am a web developer aspiring to push the boundries of 
-                    software. On my voyage through computer science I want to not only elevate my skills and knowlege but help
-                others learn and build cool things as well. Videogames have been one of the most influential things in my life,
-                inspiring me to learn all about computers since I was kid. I first started coding in my junior year of highschool 
-                and eventually went to college at CU Denver for Computer Science. After lots of failier, dropping out, and joining
-                the Full Stack Bootcamp at Denver University, I was able to refine the way I approach difficult problems and fell
-                in love with coding again!</p>
-                </div>
-            </div>
-        </section>
-    );
-};
-export default Home;
+const About = () => (
+  <Section id="about" title="about">
+    <div className="max-w-3xl space-y-5 text-base leading-relaxed text-grey-200 sm:text-lg">
+      {profile.about.map((p) => (
+        <p key={p}>{p}</p>
+      ))}
+    </div>
+  </Section>
+);
+
+export default About;
